@@ -47,6 +47,8 @@ tph.setupdate ergy, (i, x, y, s, n) ->
 	tph.sp "temp", math.huge, x, y
 	sim.pressure x/4, y/4, math.huge
 
+--------------------------------------------------------------------------------
+
 export brptbypass = 0
 brpt = tph.alloc "BOXMEIN", "BRPT", elements.DEFAULT_PT_DMND
 tph.props brpt,
