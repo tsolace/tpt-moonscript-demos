@@ -3,22 +3,14 @@ tph =
 		a4 = elements.allocate(a1, a2)
 		elements.element(a4, elements.element(a3))
 		return a4
-	props: (elem, props) ->
-		elements.property(elem, tostring(pkey), pval) for pkey, pval in pairs props
-	setupdate: (elem, func) ->
-		tpt.element_func(func, elem)
-	setgraphics: (elem, func) ->
-		tpt.graphics_func(func, elem)
-	sp: (...) ->
-		return tpt.set_property(...)
-	gp: (...) ->
-		return tpt.get_property(...)
-	c: (...) ->
-		return tpt.create(...)
-	d: (...) ->
-		return tpt.delete(...)
-	setstep: (func) ->
-		tpt.register_step(func)
+	props: (elem, props) -> elements.property(elem, tostring(pkey), pval) for pkey, pval in pairs props
+	setupdate: (elem, func) -> tpt.element_func(func, elem)
+	setgraphics: (elem, func) -> tpt.graphics_func(func, elem)
+	sp: (...) -> return tpt.set_property(...)
+	gp: (...) -> return tpt.get_property(...)
+	c: (...) -> return tpt.create(...)
+	d: (...) -> return tpt.delete(...)
+	setstep: (func) -> tpt.register_step(func)
 
 frame_counter = 0
 frame_max = 8

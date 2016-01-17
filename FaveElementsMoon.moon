@@ -3,22 +3,14 @@ tph =
 		a4 = elements.allocate(a1, a2)
 		elements.element(a4, elements.element(a3))
 		return a4
-	props: (elem, props) ->
-		elements.property(elem, tostring(pkey), pval) for pkey, pval in pairs props
-	setupdate: (elem, func) ->
-		tpt.element_func(func, elem)
-	setgraphics: (elem, func) ->
-		tpt.graphics_func(func, elem)
-	sp: (...) ->
-		return tpt.set_property(...)
-	gp: (...) ->
-		return tpt.get_property(...)
-	c: (...) ->
-		return tpt.create(...)
-	d: (...) ->
-		return tpt.delete(...)
-	setstep: (func) ->
-		tpt.register_step(func)
+	props: (elem, props) -> elements.property(elem, tostring(pkey), pval) for pkey, pval in pairs props
+	setupdate: (elem, func) -> tpt.element_func(func, elem)
+	setgraphics: (elem, func) -> tpt.graphics_func(func, elem)
+	sp: (...) -> return tpt.set_property(...)
+	gp: (...) -> return tpt.get_property(...)
+	c: (...) -> return tpt.create(...)
+	d: (...) -> return tpt.delete(...)
+	setstep: (func) -> tpt.register_step(func)
 
 nplm = tph.alloc "FEYNMAN", "NPLM", elements.DEFAULT_PT_BCOL
 tph.props nplm,
@@ -29,7 +21,7 @@ tph.props nplm,
 tph.setupdate nplm, (i, x, y, s, n) ->
 	clife = if tph.gp('type', x, y) != 0 then tph.gp('life', x, y) else 0
 	if clife > 1
-		tph.c x+cx, y+cy, 'fire' for cy = -1, 1, 2 for cx = -1, 1, 2 
+		tph.c x+cx, y+cy, 'fire' for cy = -1, 1, 2 for cx = -1, 1, 2
 		tph.sp 'life', clife - 1, x, y
 	elseif clife == 1
 		tph.sp 'type', 0, x, y
@@ -75,7 +67,7 @@ tph.setgraphics brpt, (i, x, y, s, n) ->
 		colr = 255
 	else
 		pixel_mode = 1
-	
+
 	return 0, pixel_mode, 255, colr, colg, colb, 255, colr, colg, colb
 --------------------------------------------------------------------------------
 
@@ -203,7 +195,7 @@ phlupdate = (i, x, y, s, n) ->
 			amount = tmp * .015
 			if amount < 1.5 then amount = 1.5 elseif amount > 768 then amount = 768
 		sim.gravMap x/4, y/4, itype == pbhl and amount or -amount
-		
+
 		for r in sim.neighbors(x, y, 1, 1)
 			rtype = sim.partProperty r, sim.FIELD_TYPE
 			unless jmod
@@ -245,7 +237,7 @@ tph.setupdate song, (i, x, y, s, n) ->
 	tmp2 = sim.partProperty i, sim.FIELD_TMP2
 	if tmp2 == 0
 		angle = math.random! * math.pi * 2
-		
+
 		sim.partProperty i, sim.FIELD_TMP2, 1
 		sim.partProperty i, sim.FIELD_VX, math.sin(angle)*5
 		sim.partProperty i, sim.FIELD_VY, math.cos(angle)*5
@@ -313,13 +305,13 @@ tph.setupdate metr, (i, x, y, s, n) ->
 	tph.d i if yvel <= 0 or math.abs(xvel) > 1
 	xpos = x - xvel
 	ypos = y - yvel
-	
+
 	elemtype = get_property "type", xpos, ypos
 	if elemtype == 0
 		tph.c xpos, ypos, "bray"
 		tph.sp("temp", 5000, xpos, ypos)
 	tpt.parts[i].temp = 9999
-	
+
 	elemtype25 = get_property "type", x + xvel * 5, y + yvel * 5
 	elemtype24 = get_property "type", x + xvel * 4, y + yvel * 4
 	elemtype23 = get_property "type", x + xvel * 3, y + yvel * 3

@@ -46,14 +46,15 @@ tph.setupdate(tres, function(i, x, y, s, n)
       local l = math.random(55, 90)
       local ll = math.random(10, 22)
       local lll = math.random(10, 22)
+      local r = 0
       for o = 1, l do
         local b = math.random(0, 10)
         if b == 1 then
-          local r = r + 1
+          r = r + 1
           tph.c(x + r, y - o, 'wood')
           x = x + 1
         elseif b == 2 then
-          local r = r - 1
+          r = r - 1
           tph.c(x + r, y - o, 'wood')
           x = x - 1
         else
@@ -113,6 +114,8 @@ tph.setupdate(tres, function(i, x, y, s, n)
           tph.c(x, y - l, 'vine')
         end
       end
+      tph.sp("tmp", 0, i)
+      tph.sp("tmp2", 0, i)
       return tph.sp("type", "wood", i)
     end
   else

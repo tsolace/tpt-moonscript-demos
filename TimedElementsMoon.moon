@@ -3,22 +3,14 @@ tph =
 		a4 = elements.allocate(a1, a2)
 		elements.element(a4, elements.element(a3))
 		return a4
-	props: (elem, props) ->
-		elements.property(elem, tostring(pkey), pval) for pkey, pval in pairs props
-	setupdate: (elem, func) ->
-		tpt.element_func(func, elem)
-	setgraphics: (elem, func) ->
-		tpt.graphics_func(func, elem)
-	sp: (...) ->
-		return tpt.set_property(...)
-	gp: (...) ->
-		return tpt.get_property(...)
-	c: (...) ->
-		return tpt.create(...)
-	d: (...) ->
-		return tpt.delete(...)
-	setstep: (func) ->
-		tpt.register_step(func)
+	props: (elem, props) -> elements.property(elem, tostring(pkey), pval) for pkey, pval in pairs props
+	setupdate: (elem, func) -> tpt.element_func(func, elem)
+	setgraphics: (elem, func) -> tpt.graphics_func(func, elem)
+	sp: (...) -> return tpt.set_property(...)
+	gp: (...) -> return tpt.get_property(...)
+	c: (...) -> return tpt.create(...)
+	d: (...) -> return tpt.delete(...)
+	setstep: (func) -> tpt.register_step(func)
 
 tres = tph.alloc "SOLACE", "TRES", elements.DEFAULT_PT_DUST
 tph.props tres,
@@ -32,6 +24,7 @@ tph.setupdate tres, (i, x, y, s, n) ->
 			l = math.random 55, 90
 			ll = math.random 10, 22
 			lll = math.random 10, 22
+			r = 0
 			for o = 1, l
 				b = math.random 0, 10
 				if b == 1
@@ -85,6 +78,8 @@ tph.setupdate tres, (i, x, y, s, n) ->
 				
 				if o == l - 1
 					tph.c x, y-l, 'vine'
+			tph.sp "tmp", 0, i
+			tph.sp "tmp2", 0, i
 			tph.sp "type", "wood", i
 	else
 		tph.sp "tmp", os.time!, i
