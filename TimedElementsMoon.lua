@@ -171,7 +171,7 @@ tph.setupdate(ttim, function(i, x, y, s, n)
     if os.time() > tph.gp("tmp", i) + 30 then
       tph.sp("tmp", 0, i)
       tph.sp("tmp2", 0, i)
-      return tph.sp("type", tph.gp("ctype", i), i)
+      return tph.c(x + dx, y + dy, tph.gp("ctype", i))
     end
   else
     tph.sp("tmp", os.time(), i)
@@ -202,5 +202,39 @@ tph.props(tcol, {
 })
 tph.setgraphics(tcol, function(i, r, g, b)
   return 0, PMODE_FLAT, nr, ng, nb
+end)
+local tcln = tph.alloc("SOLACE", "TCLN", elements.DEFAULT_PT_DMND)
+tph.props(tcln, {
+  Name = "TCLN",
+  Description = "CLNE that clones every second",
+  Color = 0xFFEEAA,
+  MenuSection = elem.SC_SPECIAL
+})
+tph.setupdate(tcln, function(i, x, y, s, n)
+  if tph.gp("tmp2", i) == 1 then
+    if os.time() > tph.gp("tmp", i) + 1 then
+      for dx = -1, 1, 1 do
+        for dy = -1, 1, 1 do
+          if not (dx == 0 or dy == 0) then
+            tph.c(x + dx, y + dy, tph.gp("ctype", i))
+          end
+        end
+      end
+      tph.sp("tmp2", 0, i)
+    end
+  else
+    tph.sp("tmp", os.time(), i)
+    tph.sp("tmp2", 1, i)
+  end
+  if tph.gp("ctype", i) == 0 then
+    for dx = -1, 1, 1 do
+      for dy = -1, 1, 1 do
+        local gtype = tph.gp("type", x + dx, y + dy)
+        if gtype ~= 0 and gtype ~= tcln then
+          tph.sp("ctype", tph.gp("type", x + dx, y + dy), i)
+        end
+      end
+    end
+  end
 end)
 return nil

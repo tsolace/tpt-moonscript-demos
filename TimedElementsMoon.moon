@@ -37,15 +37,15 @@ tph.setupdate tres, (i, x, y, s, n) ->
 					x -= 1
 				else
 					tph.c x, y-o, 'wood'
-				
+
 				if o == 39
 					tph.c x+i, y-39, 'plnt' for i = 1, 2
 					tph.c x-i, y-39, 'plnt' for i = 1, 2
-				
+
 				if o == 40
 					tph.c x+i, y-40, 'plnt' for i = 1, 3
 					tph.c x-i, y-40, 'plnt' for i = 1, 3
-				
+
 				if o == k
 					yb = y
 					for i = 1, ll
@@ -60,7 +60,7 @@ tph.setupdate tres, (i, x, y, s, n) ->
 							tph.c x+i, y-k-i, 'wood'
 						tph.c x+i, y-k-i, 'vine'
 					y = yb
-				
+
 				if o == kk
 					yb = y
 					for i = 1, lll
@@ -75,7 +75,7 @@ tph.setupdate tres, (i, x, y, s, n) ->
 							tph.c x-i, y-kk-i, 'wood'
 						tph.c x-i, y-kk-i, 'vine'
 					y = yb
-				
+
 				if o == l - 1
 					tph.c x, y-l, 'vine'
 			tph.sp "tmp", 0, i
@@ -112,7 +112,7 @@ tph.setupdate ttim, (i, x, y, s, n) ->
 		if os.time! > tph.gp("tmp", i) + 30
 			tph.sp "tmp", 0, i
 			tph.sp "tmp2", 0, i
-			tph.sp "type", tph.gp("ctype", i), i
+			tph.c x+dx, y+dy, tph.gp("ctype",i)
 	else
 		tph.sp "tmp", os.time!, i
 		tph.sp "tmp2", 1, i
@@ -136,6 +136,24 @@ tph.props tcol,
 tph.setgraphics tcol, (i, r, g, b) ->
 	return 0, PMODE_FLAT, nr, ng, nb
 
-
+tcln = tph.alloc "SOLACE", "TCLN", elements.DEFAULT_PT_DMND
+tph.props tcln,
+	Name: "TCLN", Description: "CLNE that clones every second"
+	Color: 0xFFEEAA, MenuSection: elem.SC_SPECIAL
+tph.setupdate tcln, (i, x, y, s, n) ->
+	if tph.gp("tmp2", i) == 1 then
+		if os.time! > tph.gp("tmp", i) + 1
+			for dx = -1, 1, 1 for dy = -1, 1, 1
+				unless dx == 0 or dy == 0
+					tph.c x+dx, y+dy, tph.gp("ctype", i)
+			tph.sp "tmp2", 0, i
+	else
+		tph.sp "tmp", os.time!, i
+		tph.sp "tmp2", 1, i
+	if tph.gp("ctype", i) == 0 then
+		for dx = -1, 1, 1 for dy = -1, 1, 1
+			gtype = tph.gp("type", x + dx, y + dy)
+			if gtype != 0 and gtype != tcln
+				tph.sp "ctype", tph.gp("type", x+dx, y+dy), i
 
 return nil
