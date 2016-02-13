@@ -171,7 +171,7 @@ tph.setupdate(ttim, function(i, x, y, s, n)
     if os.time() > tph.gp("tmp", i) + 30 then
       tph.sp("tmp", 0, i)
       tph.sp("tmp2", 0, i)
-      return tph.c(x + dx, y + dy, tph.gp("ctype", i))
+      return tph.sp("type", tph.gp("ctype", i), i)
     end
   else
     tph.sp("tmp", os.time(), i)
@@ -212,10 +212,10 @@ tph.props(tcln, {
 })
 tph.setupdate(tcln, function(i, x, y, s, n)
   if tph.gp("tmp2", i) == 1 then
-    if os.time() > tph.gp("tmp", i) + 1 then
+    if tonumber(string.sub(tostring(socket.gettime() * 100), 5)) > tph.gp("tmp", i) + (tph.gp("life", i) / 10) then
       for dx = -1, 1, 1 do
         for dy = -1, 1, 1 do
-          if not (dx == 0 or dy == 0) then
+          if not (dx == 0 and dy == 0) then
             tph.c(x + dx, y + dy, tph.gp("ctype", i))
           end
         end
@@ -223,7 +223,7 @@ tph.setupdate(tcln, function(i, x, y, s, n)
       tph.sp("tmp2", 0, i)
     end
   else
-    tph.sp("tmp", os.time(), i)
+    tph.sp("tmp", tonumber(string.sub(tostring(socket.gettime() * 100), 5)), i)
     tph.sp("tmp2", 1, i)
   end
   if tph.gp("ctype", i) == 0 then
@@ -235,6 +235,9 @@ tph.setupdate(tcln, function(i, x, y, s, n)
         end
       end
     end
+  end
+  if tph.gp("life", i) == 0 then
+    return tph.sp("life", 1000, i)
   end
 end)
 return nil

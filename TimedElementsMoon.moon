@@ -112,7 +112,7 @@ tph.setupdate ttim, (i, x, y, s, n) ->
 		if os.time! > tph.gp("tmp", i) + 30
 			tph.sp "tmp", 0, i
 			tph.sp "tmp2", 0, i
-			tph.c x+dx, y+dy, tph.gp("ctype",i)
+			tph.sp "type", tph.gp("ctype",i), i
 	else
 		tph.sp "tmp", os.time!, i
 		tph.sp "tmp2", 1, i
@@ -141,19 +141,21 @@ tph.props tcln,
 	Name: "TCLN", Description: "CLNE that clones every second"
 	Color: 0xFFEEAA, MenuSection: elem.SC_SPECIAL
 tph.setupdate tcln, (i, x, y, s, n) ->
-	if tph.gp("tmp2", i) == 1 then
-		if os.time! > tph.gp("tmp", i) + 1
+	if tph.gp("tmp2", i) == 1
+		if tonumber(string.sub(tostring(socket.gettime!*100), 5)) > tph.gp("tmp", i)+(tph.gp("life", i)/10)
 			for dx = -1, 1, 1 for dy = -1, 1, 1
-				unless dx == 0 or dy == 0
+				unless dx == 0 and dy == 0
 					tph.c x+dx, y+dy, tph.gp("ctype", i)
 			tph.sp "tmp2", 0, i
 	else
-		tph.sp "tmp", os.time!, i
+		tph.sp "tmp", tonumber(string.sub(tostring(socket.gettime!*100), 5)), i
 		tph.sp "tmp2", 1, i
-	if tph.gp("ctype", i) == 0 then
+	if tph.gp("ctype", i) == 0
 		for dx = -1, 1, 1 for dy = -1, 1, 1
 			gtype = tph.gp("type", x + dx, y + dy)
 			if gtype != 0 and gtype != tcln
 				tph.sp "ctype", tph.gp("type", x+dx, y+dy), i
+	if tph.gp("life", i) == 0
+		tph.sp "life", 1000, i
 
 return nil
